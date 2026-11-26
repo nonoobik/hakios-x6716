@@ -57,7 +57,7 @@
  * on a 4K-page kernel ("disallowing unsupported code signature page shift: 14"), after which
  * no process that links libSystem through the cache can start. */
 #define XNU_PHYS_BASE       0xc0000000ULL
-#define XNU_MEM_SIZE        0x7f000000ULL       /* 2032 MiB; >1 GiB so the kernel uses 16K pages */
+#define XNU_MEM_SIZE        0xf0000000ULL       /* 2032 MiB; >1 GiB so the kernel uses 16K pages */
 /* Where the system image is put, clear of the kernel, as xnuloader does it (RESIDENT_RD_OFFSET). */
 #define SYSTEM_PA           (XNU_PHYS_BASE + 0x08000000ULL)
 #define SYSTEM_PART         "xnusys"
