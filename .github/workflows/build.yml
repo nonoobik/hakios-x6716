@@ -1,0 +1,39 @@
+name: Build HakiOS X6716
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install ARM64 toolchain
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu
+
+    - name: Build mtkloader
+      run: |
+        cd mtkloader
+        chmod +x build.sh build_fbdiag.sh
+        ./build.sh
+        ./build_fbdiag.sh
+
+    - name: Check prebuilt files
+      run: |
+        ls -la prebuilt/ prebuilt/uefi/ xnuloader/
+
+    - name: Upload mtkloader binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: mtkloader-x6716
+        path: |
+          mtkloader/*.bin
+          mtkloader/*.img
+          
