@@ -42,11 +42,11 @@
 #define TOPRGU_SWRST_KEY     0x1209u
 
 /* LK's framebuffer (mblock "framebuffer"), the layer LK shows the logo on. */
-#define LK_FB_BASE           0x7cdb0000ULL
-#define LK_FB_SIZE           0x2250000ULL
+#define LK_FB_BASE           0x77520000ULL
+#define LK_FB_SIZE           0x22e0000ULL
 #define LK_FB_PITCH          4352u      /* 1088 pixels: LK aligns the width to 32 */
 #define PANEL_W              1080u
-#define PANEL_H              2340u
+#define PANEL_H              2400u
 
 #define DISP_MUTEX_EN        0x14001020ULL
 #define DISP_MUTEX_RUN       0x14001024ULL
