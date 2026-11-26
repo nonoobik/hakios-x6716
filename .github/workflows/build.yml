@@ -18,22 +18,27 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
+    - name: Patch mtkdbg.h and mtkloader.c for X6716
+      run: |
+        cd mtkloader
+        sed -i 's/0x7cdb0000ULL/0x77520000ULL/gI' mtkdbg.h
+        sed -i 's/0x7d890000ULL/0x77520000ULL/gI' mtkdbg.h
+        sed -i 's/0x7e000000ULL/0x77520000ULL/gI' mtkdbg.h
+        sed -i 's/#define PANEL_W.*/#define PANEL_W 1080/' mtkdbg.h
+        sed -i 's/#define PANEL_H.*/#define PANEL_H 2400/' mtkdbg.h
+        sed -i 's/#define LK_FB_PITCH.*/#define LK_FB_PITCH 4352/' mtkdbg.h
+        sed -i 's/#define LK_FB_SIZE.*/#define LK_FB_SIZE 0x022e0000ULL/' mtkdbg.h
+        sed -i 's/0x7f000000ULL/0xf0000000ULL/gI' mtkloader.c
+        sed -i 's/touch_bring_up();/\/\/ touch_bring_up();/' mtkloader.c
+
     - name: Build mtkloader
       run: |
         cd mtkloader
-        chmod +x build.sh build_fbdiag.sh
+        chmod +x build.sh
         ./build.sh
-        ./build_fbdiag.sh
 
-    - name: Check prebuilt files
-      run: |
-        ls -la prebuilt/ prebuilt/uefi/ xnuloader/
-
-    - name: Upload mtkloader binaries
+    - name: Upload mtkloader.bin
       uses: actions/upload-artifact@v4
       with:
         name: mtkloader-x6716
-        path: |
-          mtkloader/*.bin
-          mtkloader/*.img
-          
+        path: mtkloader/mtkloader.bin
